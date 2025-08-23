@@ -1,3 +1,13 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# OS binary files
+*.bin
+*.img
+*.iso
+
 # Prerequisites
 *.d
 
@@ -53,3 +63,8 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+
+# Added by cargo
+
+/target
