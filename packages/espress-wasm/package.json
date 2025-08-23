@@ -1,0 +1,14 @@
+{
+  "name": "espress-wasm",
+  "version": "0.1.0",
+  "description": "WebAssembly package for EspressOS components",
+  "scripts": {
+    "build": "rustup run stable wasm-pack build --target web --out-dir pkg",
+    "build:node": "rustup run stable wasm-pack build --target nodejs --out-dir pkg-node",
+    "dev": "rustup run stable wasm-pack build --dev --target web --out-dir pkg",
+    "test": "rustup run stable wasm-pack test --headless --firefox",
+    "clean": "rm -rf pkg pkg-node target"
+  },
+  "author": "espresso95",
+  "license": "MIT"
+}

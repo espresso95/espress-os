@@ -1,126 +1,206 @@
-# EspressOS
+# EspressOS Monorepo
 
-A bare-metal operating system written in Rust, targeting the x86_64 architecture.
+A bare-metal operating system written in Rust, targeting the x86_64 architecture, now organized as a monorepo with WebAssembly support.
 
-## Prerequisites
+## 🚀 Quick Start
 
-Before you can build and run EspressOS, you need to install the following tools:
+### Prerequisites
 
-### 1. Rust Toolchain
+1. **Node.js** (version 18+)
+2. **Rust toolchain** with nightly support
+3. **Build tools** for OS development
+
+### Setup
+
 ```bash
-# Install Rust using rustup
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Clone the repository
+git clone https://github.com/espresso95/espress-os.git
+cd espress-os
 
-# Add the nightly toolchain (required for kernel development)
+# Install Node.js dependencies
+npm install
+
+# Set up Rust development environment
 rustup toolchain install nightly
 rustup default nightly
-
-# Add the x86_64 target
+rustup component add rust-src llvm-tools-preview
 rustup target add x86_64-unknown-none
-```
-
-### 2. Build Tools
-```bash
-# Install bootimage tool for creating bootable disk images
+rustup target add wasm32-unknown-unknown
 cargo install bootimage
 
-# Install QEMU for running the OS in a virtual machine
-# On Ubuntu/Debian:
-sudo apt update
-sudo apt install qemu-system-x86
-
-# On macOS:
-brew install qemu
-
-# On Windows:
-# Download and install QEMU from https://qemu.org
+# Build all packages
+npm run build
 ```
 
-### 3. Additional Components
-```bash
-# Add the rust-src component (required for building core library)
-rustup component add rust-src
-
-# Add llvm-tools for additional build tools
-rustup component add llvm-tools-preview
-```
-
-## Building
-
-To build the kernel:
+### Development
 
 ```bash
-# Build the kernel
-cargo build
+# Build all packages
+npm run build
 
-# Build a bootable disk image
-cargo bootimage
+# Run frontend development server
+cd packages/frontend && npm run dev
+
+# Build the OS kernel
+cd packages/espress-os && cargo build
+
+# Build WebAssembly components
+cd packages/espress-wasm && npm run build
 ```
 
-## Running
+## 📦 Package Structure
 
-To run EspressOS in QEMU:
+This monorepo contains three main packages:
+
+### `packages/espress-os/` - The Core Operating System
+The original bare-metal OS kernel written in Rust:
+- **VGA Text Mode**: Basic text output via VGA buffer
+- **Memory Management**: Direct memory access and management  
+- **Interrupt Handling**: x86_64 interrupt descriptor table setup
+- **Boot Process**: Uses the `bootloader` crate for initial setup
 
 ```bash
-# Run with bootimage (recommended)
-cargo run
-
-# Or run the generated image directly with QEMU
-qemu-system-x86_64 -drive format=raw,file=target/x86_64-espress_os/debug/bootimage-espress-os.bin
+cd packages/espress-os
+cargo build          # Build the kernel
+cargo bootimage       # Create bootable disk image
+cargo run            # Run in QEMU (requires QEMU installation)
 ```
 
-## Development
+### `packages/espress-wasm/` - WebAssembly Components
+Rust code compiled to WebAssembly for web integration:
+- **VGA Emulator**: Web-based VGA text mode emulation
+- **OS Simulation**: Browser-compatible OS component demonstrations
+- **Color Management**: Full VGA color palette support
 
-### Project Structure
+```bash
+cd packages/espress-wasm
+npm run build        # Build WASM package
+npm run dev          # Development build
+```
 
+### `packages/frontend/` - Web Demo Application
+Interactive web application showcasing EspressOS components:
+- **Terminal Emulator**: Retro-style terminal interface
+- **OS Demo**: Interactive kernel boot simulation
+- **WebAssembly Integration**: Real-time OS component usage
+
+```bash
+cd packages/frontend
+npm run dev          # Start development server
+npm run build        # Build for production
+```
+
+## 🛠 Development Tools
+
+### Turbo Monorepo Management
+```bash
+npm run build        # Build all packages
+npm run dev          # Start all development servers
+npm run test         # Run all tests
+npm run lint         # Lint all packages
+npm run clean        # Clean all build artifacts
+```
+
+### Individual Package Management
+```bash
+# OS Development
+cd packages/espress-os
+./dev.sh setup       # Setup OS development environment
+./dev.sh build       # Build kernel
+./dev.sh run         # Run in QEMU
+./dev.sh clean       # Clean build artifacts
+
+# WebAssembly Development  
+cd packages/espress-wasm
+npm run build        # Build WASM package
+npm run test         # Run WASM tests
+
+# Frontend Development
+cd packages/frontend
+npm run dev          # Development server
+npm run preview      # Preview production build
+```
+
+## 🏗 Architecture
+
+### Monorepo Structure
 ```
 espress-os/
-├── src/
-│   └── main.rs          # Kernel entry point
-├── .cargo/
-│   └── config.toml      # Cargo configuration
-├── x86_64-espress_os.json # Target specification
-├── Cargo.toml           # Project configuration
-└── README.md           # This file
+├── packages/
+│   ├── espress-os/          # Core OS kernel (Rust)
+│   │   ├── src/main.rs      # Kernel entry point
+│   │   ├── Cargo.toml       # OS dependencies
+│   │   └── .cargo/          # OS-specific build config
+│   ├── espress-wasm/        # WebAssembly components (Rust→WASM)
+│   │   ├── src/lib.rs       # WASM library
+│   │   ├── Cargo.toml       # WASM dependencies
+│   │   └── pkg/             # Generated WASM package
+│   └── frontend/            # Web application (JavaScript)
+│       ├── src/main.js      # Frontend application
+│       ├── index.html       # Web interface
+│       └── dist/            # Built frontend assets
+├── turbo.json               # Turbo build configuration
+├── package.json             # Workspace configuration
+└── Cargo.toml              # Rust workspace configuration
 ```
 
-### Key Features
+### Build Pipeline
+1. **espress-os**: Compiles to bare-metal x86_64 binary
+2. **espress-wasm**: Compiles Rust to WebAssembly using wasm-pack
+3. **frontend**: Bundles web application with Vite, integrating WASM components
 
-- **No Standard Library**: The kernel runs in a `no_std` environment
-- **VGA Text Mode**: Basic text output via VGA buffer
-- **Panic Handler**: Custom panic handling for kernel panics
-- **X86_64 Target**: Specifically designed for 64-bit x86 architecture
+## 🎯 Key Features
 
-### Adding New Features
+- **Dual-Target Architecture**: Same codebase supports both bare-metal and web platforms
+- **Modern Development**: Uses Turbo for fast, cached builds across packages
+- **Interactive Demo**: Web-based terminal emulator showcasing OS capabilities
+- **Development Tools**: Comprehensive tooling for both OS and web development
+- **Cross-Platform**: OS development on any platform supporting Rust and QEMU
 
-1. Create new modules in the `src/` directory
-2. Add dependencies to `Cargo.toml` as needed
-3. Ensure all code is `no_std` compatible
-4. Test in QEMU before running on real hardware
+## 🚧 Running the OS
 
-## Architecture
+### In QEMU (Bare Metal Simulation)
+```bash
+cd packages/espress-os
+cargo run
+# or
+./dev.sh run
+```
 
-EspressOS is designed as a microkernel with the following components:
+### In the Browser (WebAssembly Demo)
+```bash
+# Start the web demo
+cd packages/frontend
+npm run dev
 
-- **Boot Process**: Uses the `bootloader` crate for initial setup
-- **Memory Management**: Direct memory access and management
-- **VGA Output**: Text-mode display driver
-- **Interrupt Handling**: x86_64 interrupt descriptor table setup
+# Visit http://localhost:5173
+# Click "Simulate Boot" or "Run Demo" to see OS components in action
+```
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly in QEMU
-5. Submit a pull request
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes in the appropriate package
+4. Test thoroughly: `npm run build && npm run test`
+5. Commit your changes: `git commit -m 'Add amazing feature'`
+6. Push to the branch: `git push origin feature/amazing-feature`  
+7. Submit a pull request
 
-## License
+### Development Guidelines
+- OS code should remain `no_std` compatible
+- WebAssembly components should work in modern browsers
+- Follow existing code style and patterns
+- Test both bare-metal and web targets when making core changes
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 📄 License
 
-## Resources
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🔗 Resources
 
 - [Writing an OS in Rust](https://os.phil-opp.com/) - Excellent tutorial series
 - [The Rust Programming Language](https://doc.rust-lang.org/book/)
-- [x86_64 Assembly Language Reference](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
+- [WebAssembly Documentation](https://webassembly.org/)
+- [Turbo Documentation](https://turbo.build/repo/docs)
+- [x86_64 Assembly Reference](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)

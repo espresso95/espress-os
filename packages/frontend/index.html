@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EspressOS - Web Demo</title>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>EspressOS Web Demo</h1>
+        <p>Experience the EspressOS kernel in your browser via WebAssembly</p>
+      </header>
+      
+      <main>
+        <div id="terminal-container">
+          <div id="terminal-screen">
+            <pre id="terminal-output">Loading EspressOS...</pre>
+          </div>
+          <div id="controls">
+            <button id="boot-btn">Simulate Boot</button>
+            <button id="clear-btn">Clear Screen</button>
+            <button id="demo-btn">Run Demo</button>
+          </div>
+        </div>
+      </main>
+      
+      <footer>
+        <p>This is a WebAssembly demo of EspressOS components. The actual OS runs on bare metal x86_64.</p>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
