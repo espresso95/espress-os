@@ -1,0 +1,16 @@
+{
+  "name": "espress-os",
+  "version": "0.1.0",
+  "description": "A bare-metal operating system written in Rust",
+  "scripts": {
+    "build": "cargo build",
+    "build:release": "cargo build --release",
+    "build:bootimage": "cargo bootimage",
+    "dev": "cargo run",
+    "test": "cargo test",
+    "lint": "cargo fmt --check && cargo clippy -- -D warnings",
+    "clean": "cargo clean"
+  },
+  "author": "espresso95",
+  "license": "MIT"
+}

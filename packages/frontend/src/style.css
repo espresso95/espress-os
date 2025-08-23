@@ -1,0 +1,152 @@
+:root {
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: #000000;
+  color: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+header h1 {
+  color: #ffff55;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px #ffff55;
+}
+
+header p {
+  color: #aaaaaa;
+  margin-bottom: 2rem;
+}
+
+#terminal-container {
+  background-color: #000000;
+  border: 2px solid #555555;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 20px rgba(85, 85, 85, 0.5);
+}
+
+#terminal-screen {
+  background-color: #000000;
+  border: 1px solid #333333;
+  padding: 20px;
+  min-height: 400px;
+  text-align: left;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  overflow-y: auto;
+  border-radius: 4px;
+  position: relative;
+}
+
+#terminal-output {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+#controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+button {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #555555;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: #555555;
+  border-color: #777777;
+  box-shadow: 0 0 10px rgba(85, 85, 85, 0.5);
+}
+
+button:active {
+  background-color: #222222;
+}
+
+footer {
+  color: #777777;
+  font-size: 12px;
+  margin-top: 2rem;
+}
+
+/* Retro CRT effect */
+#terminal-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    transparent 50%, 
+    rgba(0, 255, 0, 0.03) 50%
+  );
+  background-size: 100% 4px;
+  animation: scan 0.1s linear infinite;
+}
+
+@keyframes scan {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  header h1 {
+    font-size: 2rem;
+  }
+  
+  #terminal-screen {
+    font-size: 12px;
+    padding: 15px;
+    min-height: 300px;
+  }
+  
+  #controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  button {
+    width: 200px;
+  }
+}

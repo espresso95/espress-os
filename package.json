@@ -1,0 +1,25 @@
+{
+  "name": "espress-os-monorepo",
+  "version": "1.0.0",
+  "description": "A bare-metal operating system written in Rust, targeting the x86_64 architecture.",
+  "private": true,
+  "packageManager": "npm@10.8.2",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.6"
+  },
+  "author": "espresso95",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
