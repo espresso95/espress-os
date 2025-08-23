@@ -53,3 +53,19 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Rust specific
+/target
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# OS-specific build artifacts
+*.img
+*.iso
+*.bin
+
+
+# Added by cargo
+
+/target
