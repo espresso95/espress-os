@@ -101,6 +101,8 @@ npm run lint         # Lint all packages
 npm run clean        # Clean all build artifacts
 ```
 
+For detailed information about the Turbo build system configuration, see [docs/turbo-configuration.md](docs/turbo-configuration.md).
+
 ### Individual Package Management
 ```bash
 # OS Development
