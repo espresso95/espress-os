@@ -9,3 +9,11 @@ resolver = "2"
 authors = ["espresso95"]
 license = "MIT"
 edition = "2021"
+
+# Profile configurations for all workspace members
+[profile.dev]
+panic = "abort" # disable stack unwinding on panic
+
+[profile.release]
+panic = "abort" # disable stack unwinding on panic
+opt-level = "s" # optimize for small code size (important for WASM)
